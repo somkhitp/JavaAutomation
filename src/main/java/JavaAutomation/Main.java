@@ -3,24 +3,32 @@ package JavaAutomation;
 import java.time.Duration;
 import java.util.*;
 import java.io.*;
+import java.util.concurrent.TimeUnit;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
         WebDriverManager.chromedriver().setup();
 
         WebDriver driver = new ChromeDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Wait a max 10 seconds
+
+        // Set implicit wait to handle implicit waits for all elements
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
         String url = "https://www.demoblaze.com/index.html";
         driver.get(url);
 
         //Prints out Current URL
         System.out.println("Homepage URL is " + driver.getCurrentUrl());
-//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
 //        //Top Nav Bar
         driver.findElement(By.xpath("//ul[@class='navbar-nav ml-auto']"));
@@ -34,8 +42,6 @@ public class Main {
 //        //Clicking Laptop from Categories Section
         driver.findElement(By.xpath("//a[3]")).click();
 
-//        //Waiting 5 seconds for Element to be displayed
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
 //        //Selecting MacBook Pro
         driver.findElement(By.xpath("(//a[normalize-space()='MacBook Pro'])[1]")).click();
@@ -44,13 +50,22 @@ public class Main {
         System.out.println("Add to cart page: " + driver.getCurrentUrl());
 
 //        //Clicking Add To Cart Button
-        driver.findElement(By.xpath("(//a[normalize-space()='Add to cart'])[1]")).click();
-        Thread.sleep(1000);
+        try {
+            driver.findElement(By.xpath("(//a[normalize-space()='Add to cart'])[1]")).click();
 
-//        //Accepting And Clicking OK For Product Added Alert PopUp
-        System.out.println(driver.switchTo().alert().getText());
-        driver.switchTo().alert().accept();
+            //Accepting And Clicking OK For Product Added Alert PopUp
+            Alert alert = driver.switchTo().alert();
+            System.out.println(alert.getText());
+            alert.accept();
+        }
+        catch (NoAlertPresentException e){
+            System.out.println("No alert present");
+        }
+//        catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         driver.close();
+        driver.quit();
     }
 }
