@@ -1,6 +1,12 @@
 *.class
 *.iml
 .idea/
+.idea/complex.xml
+idea/encodings.xml
+.idea/jarRepositories.xml
+.idea/misc.xml
+.idea/vcs.xml
+.idea/workspace.xml
 out/
 # Ignore all XML files except for pom.xml
 *.xml
