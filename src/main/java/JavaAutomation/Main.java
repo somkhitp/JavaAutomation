@@ -6,11 +6,9 @@ import java.io.*;
 import java.util.concurrent.TimeUnit;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Main {
@@ -51,10 +49,12 @@ public class Main {
 
 //        //Clicking Add To Cart Button
         try {
-            driver.findElement(By.xpath("(//a[normalize-space()='Add to cart'])[1]")).click();
+            // Clicking Add To Cart Button
+            WebElement addToCartButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//a[normalize-space()='Add to cart'])[1]")));
+            addToCartButton.click();
 
-            //Accepting And Clicking OK For Product Added Alert PopUp
-            Alert alert = driver.switchTo().alert();
+            // Wait for the alert and interact with it
+            Alert alert = wait.until(ExpectedConditions.alertIsPresent());
             System.out.println(alert.getText());
             alert.accept();
         }
