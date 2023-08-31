@@ -14,6 +14,7 @@ idea/encodings.xml
 .idea/vcs.xml
 .idea/workspace.xml
 out/
+/target/
 # Ignore all XML files except for pom.xml
 *.xml
 !pom.xml
