@@ -1,4 +1,6 @@
 *.class
+
+### IntelliJ IDEA ###
 *.iml
 *.ipr
 *.iml
